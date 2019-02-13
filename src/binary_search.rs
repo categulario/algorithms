@@ -1,7 +1,8 @@
 use std::path::Path;
 use super::utils::read_ints;
+use std::io::{self, BufRead};
 
-pub fn rank(key: i32, a: &[i32]) -> Option<usize> {
+pub fn find(key: i32, a: &[i32]) -> Option<usize> {
     let mut lo = 0;
     let mut hi = a.len() - 1;
 
@@ -21,17 +22,20 @@ pub fn rank(key: i32, a: &[i32]) -> Option<usize> {
 }
 
 pub fn main<P: AsRef<Path>>(path: P) {
-    let whitelist = read_ints(path);
-    println!("{:?}", whitelist);
+    let mut whitelist = read_ints(path);
 
-    /*
-    Arrays.sort(whitelist);
+    whitelist.sort_unstable();
 
-    while (!StdIn.isEmpty()) {
-        int key = StdIn.readInt();
+    let stdin = io::stdin();
+    let iter = stdin
+        .lock()
+        .lines()
+        .map(|l| l.expect("Could not read line"))
+        .map(|s| s.trim().parse::<i32>().expect("Invalid number"));
 
-        if (rank(key, whitelist) < 0)
-
-        StdOut.println(key);
-    }*/
+    for key in iter {
+        if let None = find(key, &whitelist) {
+            println!("{}", key);
+        }
+    }
 }
