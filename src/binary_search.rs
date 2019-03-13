@@ -2,7 +2,7 @@ use std::path::Path;
 use super::utils::read_ints;
 use std::io::{self, BufRead};
 
-pub fn find(key: i32, a: &[i32]) -> Option<usize> {
+pub fn binary_search(key: i32, a: &[i32]) -> Option<usize> {
     let mut lo = 0;
     let mut hi = a.len() - 1;
 
@@ -34,7 +34,7 @@ pub fn main<P: AsRef<Path>>(path: P) {
         .map(|s| s.trim().parse::<i32>().expect("Invalid number"));
 
     for key in iter {
-        if let None = find(key, &whitelist) {
+        if let None = binary_searcu(key, &whitelist) {
             println!("{}", key);
         }
     }
